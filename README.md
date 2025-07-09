@@ -1,9 +1,19 @@
-# lifecycle_stateful
-Demo lifecycle StatefulWidget
+# 🔁 lifecycle_stateful
 
-    | Hàm | Khi nào được gọi| áp dụng trong project|
-initState() | Khi widget được khởi tạo lần đầu | khởi tạo controller trong login_screen
-didChangeDependencies() | Sau `initState()`, hoặc khi `InheritedWidget` thay đổi | thay đổi theme(InheritedWidget) của app
-build()|Mỗi lần `setState()` hoặc thay props | vd: khi thay đổi id (prop) ở trong home_screen khi bấm thay đổi id|
-didUpdateWidget() | Khi widget cha rebuild và props thay đổi | Khi bấm nút đổi id ở HomeScreen (prop thay đổi) thì didUpdateWidget được hoạt động
-dispose()| dừng state, dọn dẹp tài nguyên(controller,..) | sử dụng Navigator.pop(context) để back từ  LoginScreen về HomeScreen thì dispose được sử dụng để giải phóng các controler và dừng state của LoginScreen
+Demo dự án Flutter thể hiện vòng đời của StatefulWidget
+mô tả:
+- Thay đổi Theme (sử dụng InheritedWidget)
+- Truyền props (`id`) từ cha xuống con
+- Điều khiển hiển thị tên và mật khẩu
+- Dọn dẹp controller khi thoát màn hình
+
+---
+
+
+| 🧩 Hàm vòng đời             | 🕒 Khi nào được gọi                                                             | 💡 Áp dụng trong project thực tế                                  |
+|-----------------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| `initState()`              | Khi widget được khởi tạo lần đầu                                               | Khởi tạo `TextEditingController` trong `LoginScreen`              |
+| `didChangeDependencies()` | Sau `initState()` hoặc khi `InheritedWidget` (ví dụ Theme) thay đổi            | Lấy theme (`Theme.of(context)`) để áp dụng màu cho widget         |
+| `build()`                  | Mỗi lần gọi `setState()` hoặc khi props thay đổi                               | Khi bấm nút đổi ID ở `HomeScreen` thì `build()` được gọi lại      |
+| `didUpdateWidget()`       | Khi widget cha rebuild và truyền prop mới xuống                                | Khi bấm "Đổi ID" → prop `id` đổi → `didUpdateWidget()` hoạt động |
+| `dispose()`               | Khi widget bị remove khỏi widget tree (bị huỷ), thường dùng để dọn tài nguyên | Khi bấm back từ `LoginScreen` về `HomeScreen`                     |
